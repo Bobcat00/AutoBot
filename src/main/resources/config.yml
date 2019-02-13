@@ -1,0 +1,12 @@
+# Enter your API key purchased from https://www.cleverbot.com/api/
+api-key: YOUR_API_KEY
+
+expiration-minutes: 15
+
+single-player: true
+
+triggers:
+- 'cleverbot '
+- 'cleverbot, '
+- 'auto '
+- 'auto, '
