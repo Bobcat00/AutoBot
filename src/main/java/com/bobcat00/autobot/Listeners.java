@@ -163,7 +163,11 @@ public final class Listeners implements Listener
             
             if (session == null)
             {
-                this.session = new CleverBotQuery(plugin.config.getApiKey(), message);
+                this.session = new CleverBotQuery(plugin.config.getApiKey(),
+                                                  message,
+                                                  plugin.config.getTweak1(),
+                                                  plugin.config.getTweak2(),
+                                                  plugin.config.getTweak3());
             }
             else
             {

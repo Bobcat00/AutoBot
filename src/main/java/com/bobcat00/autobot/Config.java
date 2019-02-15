@@ -48,5 +48,20 @@ public class Config
     {
         return plugin.getConfig().getStringList("triggers");
     }
+    
+    public int getTweak1()
+    {
+        return plugin.getConfig().getInt("tweak1");
+    }
+    
+    public int getTweak2()
+    {
+        return plugin.getConfig().getInt("tweak2");
+    }
+    
+    public int getTweak3()
+    {
+        return plugin.getConfig().getInt("tweak3");
+    }
 
 }

@@ -10,3 +10,11 @@ triggers:
 - 'cleverbot, '
 - 'auto '
 - 'auto, '
+
+# Parameters to tweak Cleverbot's responses. Values are from 0 to 100. Defaults are 50.
+# tweak1 0=sensible to 100=wacky
+# tweak2 0=shy to 100=talkative
+# tweak3 0=self-centered to 100=attentive
+tweak1: 50
+tweak2: 50
+tweak3: 50

@@ -1,4 +1,4 @@
 name: AutoBot
 main: com.bobcat00.autobot.AutoBot
-version: 0.04
+version: ${project.version}
 author: Bobcat00

@@ -1,6 +1,7 @@
 /*  CleverBot API Wrapper - A simple Java API Wrapper for CleverBot!
  *
  *  Copyright (C) 2016 Michael Flaherty // michaelwflaherty.com // michaelwflaherty@me.com
+ *  Modified to add tweak settings by Bobcat00, 2019
  * 
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -18,6 +19,9 @@
 package com.michaelwflaherty.cleverbotapi;
 
 import java.net.*;
+
+//import org.bukkit.Bukkit;
+
 import java.io.*;
 import com.google.gson.*;
 
@@ -45,8 +49,34 @@ public class CleverBotQuery
     private String phrase;
     private String response;
     private int random;
+    private int tweak1;
+    private int tweak2;
+    private int tweak3;
 
     /* Constructor */
+
+    /**
+     * CleverBotQuery constructor
+     * <p>
+     * Conversation identifer is set empty, thus calling sendRequest immediately after
+     * instantiation will create a new conversation
+     * </p>
+     *
+     * @param key API key (cleverbot.com/api)
+     * @param phrase input phrase
+     * @param tweak1 0=sensible to 100=wacky
+     * @param tweak2 0=shy to 100=talkative
+     * @param tweak3 0=self-centered to 100=attentive
+     */
+    public CleverBotQuery(String key, String phrase, int tweak1, int tweak2, int tweak3)
+    {
+        this.key = key;
+        this.conversationID = "";
+        this.phrase = phrase;
+        this.tweak1 = tweak1;
+        this.tweak2 = tweak2;
+        this.tweak3 = tweak3;
+    }
 
     /**
      * CleverBotQuery constructor
@@ -60,9 +90,7 @@ public class CleverBotQuery
      */
     public CleverBotQuery(String key, String phrase)
     {
-        this.key = key;
-        this.conversationID = "";
-        this.phrase = phrase;
+        this(key, phrase, 50, 50, 50);
     }
 
     /* Getters & Setters */
@@ -167,6 +195,66 @@ public class CleverBotQuery
     }
 
     /**
+    * Gets the tweak1 parameter
+    * </p>
+    * @return 0=sensible to 100=wacky
+    */
+    public int getTweak1()
+    {
+        return this.tweak1;
+    }
+
+    /**
+    * Sets the tweak1 parameter
+    * </p>
+    * @param tweak1 0=sensible to 100=wacky
+    */
+    public void SetTweak1(int tweak1)
+    {
+        this.tweak1 = Math.min(Math.max(tweak1, 0), 100);
+    }
+
+    /**
+    * Gets the tweak2 parameter
+    * </p>
+    * @return 0=shy to 100=talkative
+    */
+    public int getTweak2()
+    {
+        return this.tweak2;
+    }
+
+    /**
+    * Sets the tweak2 parameter
+    * </p>
+    * @param tweak2 0=shy to 100=talkative
+    */
+    public void SetTweak2(int tweak2)
+    {
+        this.tweak2 = Math.min(Math.max(tweak2, 0), 100);
+    }
+
+    /**
+    * Gets the tweak3 parameter
+    * </p>
+    * @return 0=self-centered to 100=attentive
+    */
+    public int getTweak3()
+    {
+        return this.tweak3;
+    }
+
+    /**
+    * Sets the tweak3 parameter
+    * </p>
+    * @param tweak3 0=self-centered to 100=attentive
+    */
+    public void SetTweak3(int tweak3)
+    {
+        this.tweak3 = Math.min(Math.max(tweak3, 0), 100);
+    }
+
+    /**
     * Sends request to CleverBot servers. API key and phrase should be set prior to this call
     *
     * @throws IOException exception upon query failure
@@ -174,7 +262,14 @@ public class CleverBotQuery
     public void sendRequest() throws IOException
     {
         /* Create & Format URL */
-        URL url = new URL(CleverBotQuery.formatRequest(CleverBotQuery.URL_STRING, this.key, this.phrase, this.conversationID));
+        String urlString = CleverBotQuery.formatRequest(CleverBotQuery.URL_STRING, this.key, this.phrase, this.conversationID, this.tweak1, this.tweak2, this.tweak3);
+        
+        // Uncomment for debugging
+        //int keyStart = URL_STRING.length();
+        //int keyEnd = urlString.indexOf("&input=", keyStart);
+        //Bukkit.getLogger().info(urlString.substring(0, keyStart) + "*****" + urlString.substring(keyEnd));
+        
+        URL url = new URL(urlString);
 
         /* Open Connection */
         URLConnection urlConnection = url.openConnection();
@@ -201,11 +296,23 @@ public class CleverBotQuery
     * @param key API key (cleverbot.com/api)
     * @param phrase input to be sent to CleverBot servers
     * @param conversationID unique conversation identifer
+    * @param tweak1 0=sensible to 100=wacky
+    * @param tweak2 0=shy to 100=talkative
+    * @param tweak3 0=self-centered to 100=attentive
     * @return String object containing properly formatted URL
     */
-    private static String formatRequest(String url, String key, String phrase, String conversationID)
+    private static String formatRequest(String url, String key, String phrase, String conversationID, int tweak1, int tweak2, int tweak3)
     {
         String formattedPhrase = phrase.replaceAll("\\s+", "+");
-        return String.format("%s%s&input=%s&wrapper=Headline22JavaAPI%s", url, key, formattedPhrase, ((conversationID.equals("")) ? "" : ("&cs=" + conversationID)));
+        //                    u k        f                           c 1 2 3
+        return String.format("%s%s&input=%s&wrapper=Headline22JavaAPI%s%s%s%s",
+                             url,
+                             key,
+                             formattedPhrase,
+                             (conversationID.equals("")) ? "" : ("&cs=" + conversationID),
+                             (tweak1 == 50) ? "" : ("&cb_settings_tweak1=" + tweak1),
+                             (tweak2 == 50) ? "" : ("&cb_settings_tweak2=" + tweak2),
+                             (tweak3 == 50) ? "" : ("&cb_settings_tweak3=" + tweak3)
+                            );
     }
 }
