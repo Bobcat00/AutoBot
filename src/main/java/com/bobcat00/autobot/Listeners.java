@@ -25,10 +25,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+
 import com.bobcat00.autobot.AutoBot;
 import com.michaelwflaherty.cleverbotapi.CleverBotQuery;
+
+// This class listens for chat events. It also provides public methods for
+// changing Cleverbot's settings.
 
 public final class Listeners implements Listener
 {
@@ -41,6 +46,43 @@ public final class Listeners implements Listener
     public Listeners(AutoBot plugin)
     {
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    
+    // Clear conversation history
+    
+    public void clearConversationHistory()
+    {
+        if (session != null)
+        {
+            session.setConversationID("");
+        }
+    }
+    
+    // Set tweak variables
+    
+    public void setTweak1(int tweak1)
+    {
+        if (session != null)
+        {
+            session.SetTweak1(tweak1);
+        }
+    }
+    
+    public void setTweak2(int tweak2)
+    {
+        if (session != null)
+        {
+            session.SetTweak2(tweak2);
+        }
+    }
+    
+    public void setTweak3(int tweak3)
+    {
+        if (session != null)
+        {
+            session.SetTweak3(tweak3);
+        }
     }
     
     // Callback routine
@@ -117,12 +159,15 @@ public final class Listeners implements Listener
     
     // Chat event handler
     
-    @EventHandler
+    // Use MONITOR so we get called last. This means we're not allowed to cancel the event.
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent e)
     {
         Player player = e.getPlayer();
         
-        if (e.isCancelled() || !player.hasPermission("autobot.message"))
+        if (e.isCancelled() ||
+            !player.hasPermission("autobot.message") ||
+            plugin.config.getApiKey().equals("YOUR_API_KEY"))
         {
             return;
         }

@@ -2,3 +2,36 @@ name: AutoBot
 main: com.bobcat00.autobot.AutoBot
 version: ${project.version}
 author: Bobcat00
+description: Cleverbot chat plugin for CraftBukkit/Spigot servers
+commands:
+  auto:
+    description: AutoBot commands
+    permission: autobot.command
+permissions:
+  autobot.message:
+    description: Allows Cleverbot to respond to player's chat
+    default: true
+  autobot.command:
+    description: Required permission for all subcommands
+    default: op
+    children:
+      autobot.clear: true
+      autobot.help: true
+      autobot.reload: true
+      autobot.status: true
+      autobot.tweak: true
+  autobot.command.clear:
+    description: Allows use of the clear command
+    default: op
+  autobot.command.help:
+    description: Allows use of the help command
+    default: op
+  autobot.command.reload:
+    description: Allows use of the reload command
+    default: op
+  autobot.command.status:
+    description: Allows use of the status command
+    default: op
+  autobot.command.tweak:
+    description: Allows use of the tweak commands
+    default: op

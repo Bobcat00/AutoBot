@@ -17,11 +17,15 @@
 package com.bobcat00.autobot;
 
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.bobcat00.autobot.Listeners;
+import com.bobcat00.autobot.Commands;
 import com.bobcat00.autobot.Config;
 
 public class AutoBot extends JavaPlugin
 {
     Config config;
+    Listeners listeners;
     
     @Override
     public void onEnable()
@@ -29,14 +33,28 @@ public class AutoBot extends JavaPlugin
         config = new Config(this);
         saveDefaultConfig();
         
+        boolean printDisclaimer = true;
+        
+        // Check if the API key has been entered        
         if (config.getApiKey().equals("YOUR_API_KEY"))
         {
             getLogger().info("Edit config.yml to enter your API Key purchased from https://www.cleverbot.com/api/");
-            getLogger().info("then restart the server. Plugin disabled.");
+            getLogger().info("then restart the server or use /auto reload");
+            printDisclaimer = false;
         }
-        else
+        
+        // Reload config so tweak values are checked for proper range
+        config.reloadConfig(true);
+        
+        // Register listeners
+        listeners = new Listeners(this);
+        
+        // Register commands
+        this.getCommand("auto").setExecutor(new Commands(this));
+        
+        if (printDisclaimer)
         {
-            getServer().getPluginManager().registerEvents(new Listeners(this), this);
+            // Disclaimer required by Cleverbot Terms and Conditions
             getLogger().info("Plugin enabled.");
             getLogger().info("AutoBot uses the Cleverbot API from Existor. See https://www.cleverbot.com/api/");
         }

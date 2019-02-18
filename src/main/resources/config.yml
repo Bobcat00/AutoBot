@@ -1,10 +1,13 @@
 # Enter your API key purchased from https://www.cleverbot.com/api/
 api-key: YOUR_API_KEY
 
+# Time elapsed with no conversation to clear conversation history
 expiration-minutes: 15
 
+# Set to true for AutoBot to respond to all chat messages if there's only one player
 single-player: true
 
+# List of trigger words in single quotes (case insensitive). Suggest having a trailing space.
 triggers:
 - 'cleverbot '
 - 'cleverbot, '

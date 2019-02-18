@@ -73,9 +73,9 @@ public class CleverBotQuery
         this.key = key;
         this.conversationID = "";
         this.phrase = phrase;
-        this.tweak1 = tweak1;
-        this.tweak2 = tweak2;
-        this.tweak3 = tweak3;
+        this.tweak1 = Math.min(Math.max(tweak1, 0), 100);
+        this.tweak2 = Math.min(Math.max(tweak2, 0), 100);
+        this.tweak3 = Math.min(Math.max(tweak3, 0), 100);
     }
 
     /**
@@ -264,7 +264,7 @@ public class CleverBotQuery
         /* Create & Format URL */
         String urlString = CleverBotQuery.formatRequest(CleverBotQuery.URL_STRING, this.key, this.phrase, this.conversationID, this.tweak1, this.tweak2, this.tweak3);
         
-        // Uncomment for debugging
+        // Uncomment for debugging, also import org.bukkit.Bukkit above
         //int keyStart = URL_STRING.length();
         //int keyEnd = urlString.indexOf("&input=", keyStart);
         //Bukkit.getLogger().info(urlString.substring(0, keyStart) + "*****" + urlString.substring(keyEnd));
