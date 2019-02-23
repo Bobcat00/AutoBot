@@ -3,6 +3,7 @@ main: com.bobcat00.autobot.AutoBot
 version: ${project.version}
 author: Bobcat00
 description: Cleverbot chat plugin for CraftBukkit/Spigot servers
+api-version: 1.13
 commands:
   auto:
     description: AutoBot commands
