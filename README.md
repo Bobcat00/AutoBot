@@ -89,7 +89,7 @@ be sent to Cleverbot. The words are case insensitive and must be present at the
 start of the message to match.
 
 **tweak1, tweak2, tweak3** - These three parameters can be used to tweak Cleverbot's
-responses. The values are 0 to 100 and are interpreted as follows:
+responses. The values are 0 to 100 and are interpreted as follows:\
 tweak1: 0=sensible to 100=wacky\
 tweak2: 0=shy to 100=talkative\
 tweak3: 0=self-centered to 100=attentive\
