@@ -77,7 +77,7 @@ public class Commands implements CommandExecutor
         }
         catch (NumberFormatException e)
         {
-            sender.sendMessage("Invalid value");
+            sender.sendMessage("Value must be between 0 and 100, inclusive");
             return;
         }
     }

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bobcat00</groupId>
   <artifactId>AutoBot</artifactId>
-  <version>0.07(1.13.2)</version>
+  <version>0.08</version>
   <build>
     <resources>
       <resource>

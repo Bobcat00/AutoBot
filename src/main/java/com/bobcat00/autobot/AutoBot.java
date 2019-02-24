@@ -51,6 +51,7 @@ public class AutoBot extends JavaPlugin
         
         // Register commands
         this.getCommand("auto").setExecutor(new Commands(this));
+        this.getCommand("auto").setTabCompleter(new TabComplete(this));
         
         if (printDisclaimer)
         {
