@@ -1,6 +1,7 @@
 AutoBot
 
 Chatbot plugin for CraftBukkit/Spigot servers
+Tested on versions 1.12.2 and 1.13.2
 
 Note: This plugin will not work unless you purchase an API key from Existor at
 https://www.cleverbot.com/api/  Prices start at US$10.
