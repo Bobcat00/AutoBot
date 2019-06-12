@@ -16,6 +16,9 @@
 
 package com.bobcat00.autobot;
 
+import java.util.concurrent.Callable;
+
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bobcat00.autobot.Listeners;
@@ -59,6 +62,78 @@ public class AutoBot extends JavaPlugin
             getLogger().info("Plugin enabled.");
             getLogger().info("AutoBot uses the Cleverbot API from Existor. See https://www.cleverbot.com/api/");
         }
+        
+        // Metrics
+        Metrics metrics = new Metrics(this);
+        if (metrics.isEnabled())
+        {
+            // Expiration
+            metrics.addCustomChart(new Metrics.SimplePie("expiration", new Callable<String>()
+            {
+                @Override
+                public String call() throws Exception
+                {
+                    final long expirationTime = config.getExpirationMinutes();
+                    if (expirationTime == 0)
+                        return "0";
+                    else if (expirationTime <= 10)
+                        return "1-10";
+                    else if (expirationTime <= 20)
+                        return "11-20";
+                    else if (expirationTime <= 30)
+                        return "21-30";
+                    else if (expirationTime > 30)
+                        return ">30";
+                    else
+                        return "Invalid";
+                }
+            } ));
+            // Single player
+            metrics.addCustomChart(new Metrics.SimplePie("single_player", new Callable<String>()
+            {
+                @Override
+                public String call() throws Exception
+                {
+                    return config.getSinglePlayer() ? "Yes" : "No";
+                }
+            } ));
+            // Tweaks
+            metrics.addCustomChart(new Metrics.SimplePie("tweak1", new Callable<String>()
+            {
+                @Override
+                public String call() throws Exception
+                {
+                    return chartData(config.getTweak1(), "Sensible", "Wacky");
+                }
+            } ));
+            metrics.addCustomChart(new Metrics.SimplePie("tweak2", new Callable<String>()
+            {
+                @Override
+                public String call() throws Exception
+                {
+                    return chartData(config.getTweak2(), "Shy", "Talkative");
+                }
+            } ));
+            metrics.addCustomChart(new Metrics.SimplePie("tweak3", new Callable<String>()
+            {
+                @Override
+                public String call() throws Exception
+                {
+                    return chartData(config.getTweak3(), "Self-centered", "Attentive");
+                }
+            } ));
+            getLogger().info("Enabled metrics. You may opt-out by changing plugins/bStats/config.yml");
+        }
+    }
+    
+    private String chartData(final int value, final String low, final String high)
+    {
+        if (value <= 33)
+            return low;
+        else if (value >= 67)
+            return high;
+        else
+            return "Normal";
     }
         
     @Override

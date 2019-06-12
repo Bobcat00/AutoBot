@@ -108,6 +108,10 @@ from them.
 This plugin is not associated with and uses no code from a plugin of the same
 name created by Techdoodle.
 
+This plugin uses the bStats metrics system to provide anonymous usage data. You
+may opt-out globally by changing plugins/bStats/config.yml. The metrics are
+available at https://bstats.org/plugin/bukkit/AutoBot
+
 This program is distributed WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. If you purchase
 an API Key and you can't get this plugin to work on your server, I have no
